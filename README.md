@@ -1,4 +1,4 @@
-# 2025_IITM_Winner_School_HandsOn
+# 2025_IITM_Winter_School_HandsOn
 
 
 # 🚀 Install Node.js and Run Your First Program
