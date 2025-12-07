@@ -1,4 +1,4 @@
-# 🚀 Multi-Server Node Environment
+# 🚀 Multi-Server Node Environment (To not follow this)
 
 This project allows you to:
 
