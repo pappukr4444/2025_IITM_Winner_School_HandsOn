@@ -22,7 +22,7 @@
 
 
 
-## CHECK OR INSTALL: nodemon
+### CHECK OR INSTALL: nodemon
 
 ```**Bash/Terminal:**
 (command -v nodemon >/dev/null && echo "✔ nodemon installed") || (
@@ -33,7 +33,7 @@
 
 
 
-# CHECK OR INSTALL: nvm
+### CHECK OR INSTALL: nvm
 ```**Bash/Terminal:**
 (command -v nvm >/dev/null && echo "✔ nvm installed") || (
   echo "❌ nvm missing — installing nvm..."
