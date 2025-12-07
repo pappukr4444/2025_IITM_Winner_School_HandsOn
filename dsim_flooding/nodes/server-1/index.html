@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Node 1 (Port 3001)</title>
+  <style>
+    :root {
+      --bg: #f7f7f7;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #111;
+      --muted: #555;
+      --border: #ddd;
+      --radius: 10px;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      color: var(--text);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 600px;
+      background: var(--card);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #dcdcdc;
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-top: 24px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Node 1</h1>
+    <div class="meta">Running on <strong>http://localhost:3001</strong></div>
+
+    <label for="data">Enter Data to Broadcast/flood </label>
+    <input id="data" placeholder="Type something like 'Hello network'..." />
+
+    <button id="sendBtn">Send Message</button>
+
+    <pre id="response">Waiting for request...</pre>
+  </div>
+
+  <script>
+    const input = document.getElementById("data");
+    const btn = document.getElementById("sendBtn");
+    const output = document.getElementById("response");
+
+    async function send() {
+      const value = input.value.trim();
+      if (!value) {
+        output.textContent = "⚠️ Please enter some data.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+      output.textContent = "⏳ Sending...";
+
+      try {
+        const res = await fetch("http://localhost:3001/api/flooding", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ data: value })
+        });
+
+        output.textContent = JSON.stringify(await res.json(), null, 2);
+      } catch (error) {
+        output.textContent = "❌ Error: " + error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    }
+
+    btn.addEventListener("click", send);
+    input.addEventListener("keydown", e => e.key === "Enter" && send());
+  </script>
+</body>
+</html>
